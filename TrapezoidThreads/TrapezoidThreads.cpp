@@ -1,3 +1,7 @@
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
 #include <iostream>
 #include "trapezoid/TrapezoidIntegrateService.h"
 
@@ -37,5 +41,6 @@ int main(int argc, char* argv[])
     cout << "\tRESULT: " << result << '\n';
     cout << "\tTIME (ms): " << difference << '\n';
 
+    _CrtDumpMemoryLeaks();
     return 0;
 }

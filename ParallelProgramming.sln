@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TrapezoidThreads", "TrapezoidThreads\TrapezoidThreads.vcxproj", "{3DC3F1C7-E5CC-4D6A-AC4E-201A5D6936F0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KMLG", "KMLG\KMLG.vcxproj", "{6256E885-BCAC-4F27-9AA3-8E474EAA170C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MegaPowerfulInformation", "MegaPowerfulInformation\MegaPowerfulInformation.vcxproj", "{981658B7-61AA-4AF2-8E97-8427EF5DE22F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -18,5 +22,21 @@ Global
 		{3DC3F1C7-E5CC-4D6A-AC4E-201A5D6936F0}.Release|Win32.Build.0 = Release|Win32
 		{3DC3F1C7-E5CC-4D6A-AC4E-201A5D6936F0}.Release|x64.ActiveCfg = Release|x64
 		{3DC3F1C7-E5CC-4D6A-AC4E-201A5D6936F0}.Release|x64.Build.0 = Release|x64
+		{6256E885-BCAC-4F27-9AA3-8E474EAA170C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6256E885-BCAC-4F27-9AA3-8E474EAA170C}.Debug|Win32.Build.0 = Debug|Win32
+		{6256E885-BCAC-4F27-9AA3-8E474EAA170C}.Debug|x64.ActiveCfg = Debug|x64
+		{6256E885-BCAC-4F27-9AA3-8E474EAA170C}.Debug|x64.Build.0 = Debug|x64
+		{6256E885-BCAC-4F27-9AA3-8E474EAA170C}.Release|Win32.ActiveCfg = Release|Win32
+		{6256E885-BCAC-4F27-9AA3-8E474EAA170C}.Release|Win32.Build.0 = Release|Win32
+		{6256E885-BCAC-4F27-9AA3-8E474EAA170C}.Release|x64.ActiveCfg = Release|x64
+		{6256E885-BCAC-4F27-9AA3-8E474EAA170C}.Release|x64.Build.0 = Release|x64
+		{981658B7-61AA-4AF2-8E97-8427EF5DE22F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{981658B7-61AA-4AF2-8E97-8427EF5DE22F}.Debug|Win32.Build.0 = Debug|Win32
+		{981658B7-61AA-4AF2-8E97-8427EF5DE22F}.Debug|x64.ActiveCfg = Debug|x64
+		{981658B7-61AA-4AF2-8E97-8427EF5DE22F}.Debug|x64.Build.0 = Debug|x64
+		{981658B7-61AA-4AF2-8E97-8427EF5DE22F}.Release|Win32.ActiveCfg = Release|Win32
+		{981658B7-61AA-4AF2-8E97-8427EF5DE22F}.Release|Win32.Build.0 = Release|Win32
+		{981658B7-61AA-4AF2-8E97-8427EF5DE22F}.Release|x64.ActiveCfg = Release|x64
+		{981658B7-61AA-4AF2-8E97-8427EF5DE22F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 EndGlobal
