@@ -6,6 +6,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KMLG", "KMLG\KMLG.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MegaPowerfulInformation", "MegaPowerfulInformation\MegaPowerfulInformation.vcxproj", "{981658B7-61AA-4AF2-8E97-8427EF5DE22F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OMP1", "OMP1\OMP1.vcxproj", "{7E0C7923-C771-4153-BB8B-A293DB37D524}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -38,5 +40,13 @@ Global
 		{981658B7-61AA-4AF2-8E97-8427EF5DE22F}.Release|Win32.Build.0 = Release|Win32
 		{981658B7-61AA-4AF2-8E97-8427EF5DE22F}.Release|x64.ActiveCfg = Release|x64
 		{981658B7-61AA-4AF2-8E97-8427EF5DE22F}.Release|x64.Build.0 = Release|x64
+		{7E0C7923-C771-4153-BB8B-A293DB37D524}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7E0C7923-C771-4153-BB8B-A293DB37D524}.Debug|Win32.Build.0 = Debug|Win32
+		{7E0C7923-C771-4153-BB8B-A293DB37D524}.Debug|x64.ActiveCfg = Debug|x64
+		{7E0C7923-C771-4153-BB8B-A293DB37D524}.Debug|x64.Build.0 = Debug|x64
+		{7E0C7923-C771-4153-BB8B-A293DB37D524}.Release|Win32.ActiveCfg = Release|Win32
+		{7E0C7923-C771-4153-BB8B-A293DB37D524}.Release|Win32.Build.0 = Release|Win32
+		{7E0C7923-C771-4153-BB8B-A293DB37D524}.Release|x64.ActiveCfg = Release|x64
+		{7E0C7923-C771-4153-BB8B-A293DB37D524}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 EndGlobal

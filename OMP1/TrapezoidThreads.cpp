@@ -1,32 +1,95 @@
+// OMP FIRST
+/*
+#include <iostream>
 
+using namespace std;
+
+double function(double x)
+{
+    return x * x * x;
+}
+
+int main(int argc, char* argv[])
+{
+    double x0 = 0, xn = 20, dx = 1e-7f, result = 0;
+    int threadAmount = 8;
+    clock_t start_time, end_time, difference;
+
+    cout << "\t\tINITIAL DATA:\n";
+    cout << "\tX0: " << x0 << '\n';
+    cout << "\tXn: " << xn << '\n';
+    cout << "\tDx: " << dx << '\n';
+
+
+    start_time = clock();
+    const int steps = static_cast<int>((xn - x0) / dx);
+    if (steps <= threadAmount) throw std::exception("steps <= threadAmount");
+
+#pragma omp parallel for num_threads(threadAmount) reduction(+:result)
+    for (int i = 0; i < steps; i++)
+    {
+        const double x = i * dx;
+        if (x0 + x <= xn)
+            result += function(x0 + x);
+    }
+
+    result = (result * 2 + function(x0) + function(xn)) * dx / 2;
+
+    end_time = clock();
+    difference = end_time - start_time;
+    cout << "\n\t\tWITH " << threadAmount << " THREADS:\n";
+    cout << "\tRESULT: " << result << '\n';
+    cout << "\tTIME (ms): " << difference << '\n';
+
+    _CrtDumpMemoryLeaks();
+    return 0;
+}
+*/
+
+//OMP SECOND
 
 #include <iostream>
 #include <fstream>
+#include <omp.h>
 #include <string>
 
 #define ull unsigned long long
 
 using namespace std;
 
-#include "pthread/pthread.h"
-
-#pragma comment(lib, "pthread/pthreadVCE2.lib")
-
-pthread_mutex_t mutex;
-
 struct read_data
 {
-    ifstream* file = nullptr; // Указатель на поток входных данных
-    bool is_end = false; // Флаг "Каретка в конце файла"
-    ull* number = nullptr; // Указатель на число
+    ifstream* file = nullptr;
+    bool is_end = false;
+    ull* number = nullptr;
 };
 
 struct calc_data
 {
-    int index; // Индекс пары потоков
-    bool* is_end; // Указатель на флаг структуры чтения
-    ull* number; // Указатель на число
+    int index;
+    bool* is_end;
+    ull* number;
 };
+
+
+void make_number_file()
+{
+    srand(time(nullptr));
+    ofstream output("KMLG-input.txt", std::ofstream::out | std::ofstream::trunc);
+
+    for (int i = 0; i < 10000; i++)
+    {
+        long long num = abs(rand() * 1000000 + 1);
+
+        output << num;
+
+        if (i != 10000 - 1)
+            output << endl;
+    }
+
+    output.close();
+}
+
 
 long long mul(long long a, long long b, long long m)
 {
@@ -52,7 +115,6 @@ long long pows(long long a, long long b, long long m)
     return (mul(pows(a, b - 1, m), a, m)) % m;
 }
 
-
 long long gcd(long long a, long long b)
 {
     if (b == 0)
@@ -76,22 +138,20 @@ bool ferma(long long x)
     return true;
 }
 
-void* read(void* x)
+void* read(read_data* data)
 {
     try
     {
-        read_data* data = static_cast<read_data*>(x);
-
-
         while (!data->file->eof())
         {
             if (*data->number == NULL)
             {
                 string string_number;
 
-                pthread_mutex_lock(&mutex);
-                getline(*data->file, string_number);
-                pthread_mutex_unlock(&mutex);
+#pragma omp critical
+                {
+                    getline(*data->file, string_number);
+                }
                 
                 ull h = stoll(string_number);
                 *data->number = h;
@@ -109,12 +169,10 @@ void* read(void* x)
     }
 }
 
-void* calc(void* x)
+void* calc(calc_data* data)
 {
     try
     {
-        calc_data* data = static_cast<calc_data*>(x);
-
         string name = "KMLG-result-" + to_string(data->index) + ".txt";
 
         ofstream output(name);
@@ -125,14 +183,7 @@ void* calc(void* x)
             {
                 bool is_simple = ferma(*data->number);
                 output << *data->number << " " << is_simple << endl;
-                timespec x;
-                x.tv_nsec = 1;
-                x.tv_sec = 0;
-                if (data->index % 2 != 0)
-                {
-                    pthread_delay_np(&x);
-                }
-                
+
                 *data->number = NULL;
             }
         }
@@ -148,36 +199,19 @@ void* calc(void* x)
     }
 }
 
-void make_number_file()
-{
-    srand(time(nullptr));
-    ofstream output("KMLG-input.txt", std::ofstream::out | std::ofstream::trunc);
-
-    for (int i = 0; i < 10000; i++)
-    {
-        long long num = abs(rand() * 1000000 + 1);
-        
-        output << num;
-        
-        if (i != 10000 - 1)
-            output << endl;
-    }
-
-    output.close();
-}
-
 int main(int argc, char* argv[])
 {
-    pthread_mutex_init(&mutex, nullptr);
+    int thread_amount = 8;
 
+    if (thread_amount % 2 != 0)
+        return 0;
+
+    int pair_amount = thread_amount / 2;
 
     make_number_file();
     cout << "File created!";
     ifstream input("KMLG-input.txt");
-    int pair_amount = 2;
 
-
-    pthread_t* ids = new pthread_t[pair_amount * 2];
     ull* buffer = new ull[pair_amount];
     read_data* rdata = new read_data[pair_amount];
     calc_data* cdata = new calc_data[pair_amount];
@@ -186,37 +220,39 @@ int main(int argc, char* argv[])
     for (int i = 0; i < pair_amount; i++)
         buffer[i] = NULL;
 
-    const clock_t start = clock();
-    
     for (int i = 0; i < pair_amount * 2; i += 2)
     {
-        const int index = i/2;
+        const int index = i / 2;
         rdata[index].file = &input;
-        
+
         cdata[index].index = index;
         cdata[index].number = rdata[index].number = &buffer[index];
-        
+
         rdata[index].is_end = false;
         cdata[index].is_end = &rdata[index].is_end;
-
-        pthread_create(&ids[i], nullptr, read, &rdata[index]);
-        pthread_create(&ids[i + 1], nullptr, calc, &cdata[index]);
     }
-
-
-    for (int i = 0; i < pair_amount * 2; i += 2) // ожидаем читающие потоки
-        pthread_join(ids[i], nullptr);
-    for (int i = 1; i < pair_amount * 2; i += 2) // ожидаем считающие потоки
-        pthread_join(ids[i], nullptr);
+    const clock_t start = clock();
+#pragma omp parallel num_threads(thread_amount)
+    {
+        // читающие потоки
+        int rank = omp_get_thread_num();
+        if (rank % 2 == 0)
+        {
+            read(&rdata[rank / 2]);
+        }
+        else
+        {
+            calc(&cdata[rank / 2]);
+        }
+    }
 
     const clock_t end = clock();
 
     input.close();
     cout << endl << "Done in " << end - start << " ms!" << endl;
     cout << endl << "Press something cool to close this console..." << endl;
-    getchar();  // NOLINT(cert-err33-c)
-    
-    delete[] ids;
+    getchar(); // NOLINT(cert-err33-c)
+
     delete[] buffer;
     delete[] rdata;
     delete[] cdata;
