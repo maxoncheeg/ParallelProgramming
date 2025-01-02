@@ -1,5 +1,5 @@
 // OMP FIRST
-/*
+
 #include <iostream>
 
 using namespace std;
@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
     _CrtDumpMemoryLeaks();
     return 0;
 }
-*/
+
 
 //OMP SECOND
 

@@ -1,5 +1,4 @@
 
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -125,14 +124,6 @@ void* calc(void* x)
             {
                 bool is_simple = ferma(*data->number);
                 output << *data->number << " " << is_simple << endl;
-                timespec x;
-                x.tv_nsec = 1;
-                x.tv_sec = 0;
-                if (data->index % 2 != 0)
-                {
-                    pthread_delay_np(&x);
-                }
-                
                 *data->number = NULL;
             }
         }
